@@ -64,109 +64,14 @@ Attribute GraphSeriesAuto.VB_ProcData.VB_Invoke_Func = "G\n14"
             On Error GoTo 0
         End If
         
-        Dim x1_max As Double, x1_min As Double
-        Dim y1_max As Double, y1_min As Double
-        Dim x2_max As Double, x2_min As Double
-        Dim y2_max As Double, y2_min As Double
         Dim x_max As Double, x_min As Double
         Dim y_max As Double, y_min As Double
-        
-        On Error Resume Next
-            x1_max = ActiveChart.Axes(xlCategory, 1).MaximumScale
-            If Err.Number <> 0 Then
-                MsgBox "対応しているのは、「散布図」のみです", vbCritical
-                Exit Sub
-            End If
-        On Error GoTo 0
-        
-        '軸の境界値が自動かどうかの判定
-        Dim x1_flag As Boolean
-        x1_flag = ActiveChart.Axes(xlCategory, 1).MinimumScaleIsAuto
-        Dim y1_flag As Boolean
-        y1_flag = ActiveChart.Axes(xlValue, 1).MinimumScaleIsAuto
-        Dim x2_flag As Boolean
-        x2_flag = ActiveChart.Axes(xlCategory, 2).MinimumScaleIsAuto
-        Dim y2_flag As Boolean
-        y2_flag = ActiveChart.Axes(xlValue, 2).MinimumScaleIsAuto
-        
-        x1_min = ActiveChart.Axes(xlCategory, 1).MinimumScale
-        y1_max = ActiveChart.Axes(xlValue, 1).MaximumScale
-        y1_min = ActiveChart.Axes(xlValue, 1).MinimumScale
-        x2_max = ActiveChart.Axes(xlCategory, 2).MaximumScale
-        x2_min = ActiveChart.Axes(xlCategory, 2).MinimumScale
-        y2_max = ActiveChart.Axes(xlValue, 2).MaximumScale
-        y2_min = ActiveChart.Axes(xlValue, 2).MinimumScale
-        
-        If 1 = ThisWorkbook.Sheets("オプション").Range("M8").Value Or (x1_flag And y1_flag) Then
-            Dim gtv As gettickvalue
-            Set gtv = New gettickvalue
-            x_min = gtv.xMinTickValue
-            x_max = gtv.xMaxTickValue
-            y_min = gtv.yMinTickValue
-            y_max = gtv.yMaxTickValue
-            Set gtv = Nothing
-        Else
-            If x1_flag And srs_flag Then
-                If x1_max < x2_max Then
-                    x_max = x2_max
-                Else
-                    x_max = x1_max
-                End If
-                If x1_min < x2_min Then
-                    x_min = x1_min
-                Else
-                    x_min = x2_min
-                End If
-            End If
-            
-            If y1_flag And srs_flag Then
-                If y1_max < y2_max Then
-                    y_max = y2_max
-                Else
-                    y_max = y1_max
-                End If
-                If y1_min < y2_min Then
-                    y_min = y1_min
-                Else
-                    y_min = y2_min
-                End If
-            Else
-                If x1_max <> x2_max Or x1_min <> x2_min And srs_flag Then
-                    If MsgBox("第１軸に合わせますか？" _
-                    & vbCrLf & _
-                    "「いいえ」の場合には第２軸に合わせます。", vbYesNo, "x軸選択") = vbYes Then
-                        x_max = x1_max
-                        x_min = x1_min
-                        y_max = y1_max
-                        y_min = y1_min
-                    Else
-                        x_max = x2_max
-                        x_min = x2_min
-                        y_max = y2_max
-                        y_min = y2_min
-                    End If
-                Else
-                    x_max = x1_max
-                    x_min = x1_min
-                End If
-            
-                If y1_max <> y2_max Or y1_min <> y2_min And srs_flag Then
-                    If MsgBox("第１軸に合わせますか？" _
-                    & vbCrLf & _
-                    "「いいえ」の場合には第２軸に合わせます", vbYesNo, "y軸選択") = vbYes Then
-                        y_max = y1_max
-                        y_min = y1_min
-                    Else
-                        y_max = y2_max
-                        y_min = y2_min
-                    End If
-                Else
-                    y_max = y1_max
-                    y_min = y1_min
-                End If
-            End If
-        End If
-        
+        Dim gatv As New GetAutoMaxMinTickValue(srs_flag)
+        x_max = gatv.xAoutMaxTickValue
+        x_min = gatv.xAoutminTickValue
+        y_max = gatv.yAoutMaxTickValue
+        y_min = gatv.yAoutMinTickValue
+        Set gatv = Nothing
 
         
         '軸のタイトルの取得
