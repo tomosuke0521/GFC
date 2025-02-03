@@ -9,63 +9,71 @@ Attribute VB_PredeclaredId = False
 Attribute VB_Exposed = False
 Option Explicit
 
-
+Private m_Is_x1Auto As Boolean
+Private m_Is_x2Auto As Boolean
+Private m_Is_y1Auto As Boolean
+Private m_Is_y2Auto As Boolean
 
 Private m_x_max As Double
 Private m_x_min As Double
 Private m_y_max As Double
 Private m_y_min As Double
+
 Private non As Variant
 
 
-
-Public Function GetAutoMaxMinTickValue(ByVal inp_Is_oneSeries As Boolean)
-    
-    '軸の境界値が自動かどうかの判定
+Public Sub IsAutoTickValue()
     Dim Is_x1MaxTickValueAuto As Boolean
     Is_x1MaxTickValueAuto = ActiveChart.Axes(xlCategory, 1).MaximumScaleIsAuto
     Dim Is_x1MinTickValueAuto As Boolean
     Is_x1MinTickValueAuto = ActiveChart.Axes(xlCategory, 1).MinimumScaleIsAuto
-    Dim Is_x1Auto As Boolean
+
     If Is_x1MaxTickValueAuto Or Is_x1MinTickValueAuto Then
-        Is_x1Auto = True
+        m_Is_x1Auto = True
     Else
-        Is_x1Auto = False
+        m_Is_x1Auto = False
     End If
 
     Dim Is_x2MaxTickValueAuto As Boolean
     Is_x2MaxTickValueAuto = ActiveChart.Axes(xlCategory, 2).MaximumScaleIsAuto
     Dim Is_x2MinTickValueAuto As Boolean
     Is_x2MinTickValueAuto = ActiveChart.Axes(xlCategory, 2).MinimumScaleIsAuto
-    Dim Is_x2Auto As Boolean
+    
     If Is_x2MaxTickValueAuto Or Is_x2MinTickValueAuto Then
-        Is_x2Auto = True
+        m_Is_x2Auto = True
     Else
-        Is_x2Auto = False
+        m_Is_x2Auto = False
     End If
 
     Dim Is_y1MaxTickValueAuto As Boolean
     Is_y1MaxTickValueAuto = ActiveChart.Axes(xlValue, 1).MaximumScaleIsAuto
     Dim Is_y1MinTickValueAuto As Boolean
     Is_y1MinTickValueAuto = ActiveChart.Axes(xlValue, 1).MinimumScaleIsAuto
-    Dim Is_y1Auto As Boolean
+    
     If Is_y1MaxTickValueAuto Or Is_y1MinTickValueAuto Then
-        Is_y1Auto = True
+        m_Is_y1Auto = True
     Else
-        Is_y1Auto = False
+        m_Is_y1Auto = False
     End If
 
     Dim Is_y2MaxTickValueAuto As Boolean
     Is_y2MaxTickValueAuto = ActiveChart.Axes(xlValue, 2).MaximumScaleIsAuto
     Dim Is_y2MinTickValueAuto As Boolean
     Is_y2MinTickValueAuto = ActiveChart.Axes(xlValue, 2).MinimumScaleIsAuto
-    Dim Is_y2Auto As Boolean
+    
     If Is_y2MaxTickValueAuto Or Is_y2MinTickValueAuto Then
-        Is_y2Auto = True
+        m_Is_y2Auto = True
     Else
-        Is_y2Auto = False
+        m_Is_y2Auto = False
     End If
 
+End Sub
+
+
+Public Sub GetAutoMaxMinTickValue(ByVal inp_Is_oneSeries As Boolean)
+    
+    '軸の境界値が自動かどうかの判定
+    call IsAutoTickValue()
     '------
     
     Dim x1_max As Double, x1_min As Double
@@ -84,12 +92,12 @@ Public Function GetAutoMaxMinTickValue(ByVal inp_Is_oneSeries As Boolean)
         y2_min = ActiveChart.Axes(xlValue, 2).MinimumScale
         If Err.Number <> 0 Then
             MsgBox "対応しているのは、「散布図」のみです", vbCritical
-            Exit Function
+            Exit Sub
         End If
     On Error GoTo 0
     
     
-    If 1 = ThisWorkbook.Sheets("オプション").Range("M8").Value Or (Is_x1Auto And Is_y1Auto) Then
+    If 1 = ThisWorkbook.Sheets("オプション").Range("M8").Value Or (m_Is_x1Auto And m_Is_y1Auto) Then
         Dim gtv As gettickvalue
         Set gtv = New gettickvalue
         m_x_min = gtv.xMinTickValue
@@ -98,7 +106,7 @@ Public Function GetAutoMaxMinTickValue(ByVal inp_Is_oneSeries As Boolean)
         m_y_max = gtv.yMaxTickValue
         Set gtv = Nothing
     Else
-        If Is_x1Auto And inp_Is_oneSeries Then
+        If m_Is_x1Auto And inp_Is_oneSeries Then
             If x1_max < x2_max Then
                 m_x_max = x2_max
             Else
@@ -111,7 +119,7 @@ Public Function GetAutoMaxMinTickValue(ByVal inp_Is_oneSeries As Boolean)
             End If
         End If
         
-        If Is_y1Auto And inp_Is_oneSeries Then
+        If m_Is_y1Auto And inp_Is_oneSeries Then
             If y1_max < y2_max Then
                 m_y_max = y2_max
             Else
@@ -158,7 +166,7 @@ Public Function GetAutoMaxMinTickValue(ByVal inp_Is_oneSeries As Boolean)
             End If
         End If
     End If
-End Function
+End Sub
 
 
 
