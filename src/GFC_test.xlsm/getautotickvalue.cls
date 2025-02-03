@@ -23,18 +23,50 @@ Public Function GetAutoMaxMinTickValue(ByVal inp_Is_oneSeries As Boolean)
     
     'Ž²‚Ì‹«ŠE’l‚ªŽ©“®‚©‚Ç‚¤‚©‚Ì”»’è
     Dim Is_x1MaxTickValueAuto As Boolean
-    Is_x1MaxTickValueAuto = ActiveChart.Axes(xlCategory, 1).maximumScaleIsAuto
+    Is_x1MaxTickValueAuto = ActiveChart.Axes(xlCategory, 1).MaximumScaleIsAuto
     Dim Is_x1MinTickValueAuto As Boolean
-    Is_x1Auto = ActiveChart.Axes(xlCategory, 1).MinimumScaleIsAuto
+    Is_x1MinTickValueAuto = ActiveChart.Axes(xlCategory, 1).MinimumScaleIsAuto
     Dim Is_x1Auto As Boolean
+    If Is_x1MaxTickValueAuto Or Is_x1MinTickValueAuto Then
+        Is_x1Auto = True
+    Else
+        Is_x1Auto = False
+    End If
 
-    
-    Dim Is_y1Auto As Boolean
-    Is_y1Auto = ActiveChart.Axes(xlValue, 1).MinimumScaleIsAuto
+    Dim Is_x2MaxTickValueAuto As Boolean
+    Is_x2MaxTickValueAuto = ActiveChart.Axes(xlCategory, 2).MaximumScaleIsAuto
+    Dim Is_x2MinTickValueAuto As Boolean
+    Is_x2MinTickValueAuto = ActiveChart.Axes(xlCategory, 2).MinimumScaleIsAuto
     Dim Is_x2Auto As Boolean
-    Is_x2Auto = ActiveChart.Axes(xlCategory, 2).MinimumScaleIsAuto
+    If Is_x2MaxTickValueAuto Or Is_x2MinTickValueAuto Then
+        Is_x2Auto = True
+    Else
+        Is_x2Auto = False
+    End If
+
+    Dim Is_y1MaxTickValueAuto As Boolean
+    Is_y1MaxTickValueAuto = ActiveChart.Axes(xlValue, 1).MaximumScaleIsAuto
+    Dim Is_y1MinTickValueAuto As Boolean
+    Is_y1MinTickValueAuto = ActiveChart.Axes(xlValue, 1).MinimumScaleIsAuto
+    Dim Is_y1Auto As Boolean
+    If Is_y1MaxTickValueAuto Or Is_y1MinTickValueAuto Then
+        Is_y1Auto = True
+    Else
+        Is_y1Auto = False
+    End If
+
+    Dim Is_y2MaxTickValueAuto As Boolean
+    Is_y2MaxTickValueAuto = ActiveChart.Axes(xlValue, 2).MaximumScaleIsAuto
+    Dim Is_y2MinTickValueAuto As Boolean
+    Is_y2MinTickValueAuto = ActiveChart.Axes(xlValue, 2).MinimumScaleIsAuto
     Dim Is_y2Auto As Boolean
-    Is_y2Auto = ActiveChart.Axes(xlValue, 2).MinimumScaleIsAuto
+    If Is_y2MaxTickValueAuto Or Is_y2MinTickValueAuto Then
+        Is_y2Auto = True
+    Else
+        Is_y2Auto = False
+    End If
+
+    '------
     
     Dim x1_max As Double, x1_min As Double
     Dim y1_max As Double, y1_min As Double
