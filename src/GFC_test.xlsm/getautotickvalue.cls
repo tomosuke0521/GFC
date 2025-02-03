@@ -22,8 +22,13 @@ Private non As Variant
 Public Function GetAutoMaxMinTickValue(ByVal inp_Is_oneSeries As Boolean)
     
     'Ž²‚Ì‹«ŠE’l‚ªŽ©“®‚©‚Ç‚¤‚©‚Ì”»’è
-    Dim Is_x1Auto As Boolean
+    Dim Is_x1MaxTickValueAuto As Boolean
+    Is_x1MaxTickValueAuto = ActiveChart.Axes(xlCategory, 1).maximumScaleIsAuto
+    Dim Is_x1MinTickValueAuto As Boolean
     Is_x1Auto = ActiveChart.Axes(xlCategory, 1).MinimumScaleIsAuto
+    Dim Is_x1Auto As Boolean
+
+    
     Dim Is_y1Auto As Boolean
     Is_y1Auto = ActiveChart.Axes(xlValue, 1).MinimumScaleIsAuto
     Dim Is_x2Auto As Boolean
