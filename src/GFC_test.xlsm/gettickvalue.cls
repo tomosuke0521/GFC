@@ -23,13 +23,6 @@ Dim nouse As Variant
 
 Private Const THRESHOLD_SHOW_PROBAR As Long = 10000
 
-
-
-Public Function Name()
-    
-End Function
-
-
 Private Sub Class_Initialize()
 
     Application.ScreenUpdating = False
