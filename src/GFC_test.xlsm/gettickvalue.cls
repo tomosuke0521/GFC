@@ -50,6 +50,7 @@ Private Sub Class_Initialize()
         Dim flag As Boolean
         flag = True
         Dim ele_count As Long
+        ele_count = UBound(myarrx) + 1
         Dim arrx(2000000) As String
         ele_count = 1
         Call tofliv.showProBar("Çòé≤ílì«Ç›çûÇ›íÜ", THRESHOLD_SHOW_PROBAR, UBound(myarrx))
