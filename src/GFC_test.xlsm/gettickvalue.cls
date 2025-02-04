@@ -42,7 +42,6 @@ Private Sub Class_Initialize()
     Dim srcc As Integer
     For srcc = 1 To series_count
     
-        
         Dim i As Long
         
         'x²Å‘å’lÅ¬’læ“¾
