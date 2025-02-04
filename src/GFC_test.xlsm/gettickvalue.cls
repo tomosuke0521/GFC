@@ -69,9 +69,9 @@ Private Sub Class_Initialize()
         myarry = ActiveChart.SeriesCollection(srcc).Values
         
         Dim max_arr_y(1 To 100) As Double
-        max_arr_y = Application.WorksheetFunction.Max(myarry)
+        max_arr_y(srcc) = Application.WorksheetFunction.Max(myarry)
         Dim min_arr_y(1 To 100) As Double
-        min_arr_y = Application.WorksheetFunction.Min(myarry)
+        min_arr_y(srcc) = Application.WorksheetFunction.Min(myarry)
         Dim ele_arr(1 To 100) As Double
         ele_arr(srcc) = ele_count
         
