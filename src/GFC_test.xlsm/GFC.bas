@@ -23,9 +23,7 @@ Attribute GraphSeriesAuto.VB_ProcData.VB_Invoke_Func = "G\n14"
     Dim HD_S_number As String
     HD_S_number = ThisWorkbook.Sheets("ホーム").Cells(1, 1).Value
     
-    
     'Application.ScreenUpdating = True
-    
 
     If tofliv.GetHdSn() = HD_S_number Then
     
@@ -108,8 +106,6 @@ Attribute GraphSeriesAuto.VB_ProcData.VB_Invoke_Func = "G\n14"
         Call c_y_axis_title.GetInf("ｙ軸：タイトル設定", "ｙ", get_y_axis_title)
         Dim y_axis_title As String
         y_axis_title = c_y_axis_title.UserInput
-        
-        
         
 '------------書式設定セクション------------
 
