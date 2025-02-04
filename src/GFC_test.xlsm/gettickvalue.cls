@@ -251,9 +251,3 @@ End Function
 
 
 
-Private Sub class_terminate()
-
-
-End Sub
-
-

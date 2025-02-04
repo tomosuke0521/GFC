@@ -3,9 +3,9 @@ Option Explicit
 
 Sub setSampleColor()
 
-    ThisWorkbook.Sheets("ï¿½Iï¿½vï¿½Vï¿½ï¿½ï¿½ï¿½").Unprotect PASSWORD:=PASSWORD_NUMBER
+    ThisWorkbook.Sheets("ƒIƒvƒVƒ‡ƒ“").Unprotect PASSWORD:=PASSWORD_NUMBER
     
-    With ThisWorkbook.Sheets("ï¿½Iï¿½vï¿½Vï¿½ï¿½ï¿½ï¿½")
+    With ThisWorkbook.Sheets("ƒIƒvƒVƒ‡ƒ“")
         
         Dim rgb_r, rgb_g, rgb_b As Integer
         rgb_r = .Range("H17").Value - 1
@@ -16,7 +16,7 @@ Sub setSampleColor()
         
     End With
     
-    ThisWorkbook.Sheets("ï¿½Iï¿½vï¿½Vï¿½ï¿½ï¿½ï¿½").Protect PASSWORD:=PASSWORD_NUMBER
+    ThisWorkbook.Sheets("ƒIƒvƒVƒ‡ƒ“").Protect PASSWORD:=PASSWORD_NUMBER
     
 
 

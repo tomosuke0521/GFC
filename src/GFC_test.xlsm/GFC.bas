@@ -4,11 +4,8 @@ Option Explicit
 
 Sub GraphSeriesAuto()
 Attribute GraphSeriesAuto.VB_ProcData.VB_Invoke_Func = "G\n14"
-
-    
     'Application.ScreenUpdating = False
-    
-    With ThisWorkbook.Sheets("ï¿½Iï¿½vï¿½Vï¿½ï¿½ï¿½ï¿½")
+    With ThisWorkbook.Sheets("ƒIƒvƒVƒ‡ƒ“")
         Dim xdp_g As Integer
         xdp_g = .Range("H9").Value
         Dim ydp_g As Integer
@@ -24,7 +21,7 @@ Attribute GraphSeriesAuto.VB_ProcData.VB_Invoke_Func = "G\n14"
     End With
     
     Dim HD_S_number As String
-    HD_S_number = ThisWorkbook.Sheets("ï¿½zï¿½[ï¿½ï¿½").Cells(1, 1).Value
+    HD_S_number = ThisWorkbook.Sheets("ƒz[ƒ€").Cells(1, 1).Value
     
     
     'Application.ScreenUpdating = True
@@ -32,18 +29,18 @@ Attribute GraphSeriesAuto.VB_ProcData.VB_Invoke_Func = "G\n14"
 
     If tofliv.GetHdSn() = HD_S_number Then
     
-        'ï¿½ï¿½ï¿½æ“¾ï¿½Zï¿½Nï¿½Vï¿½ï¿½ï¿½ï¿½
+        'î•ñæ“¾ƒZƒNƒVƒ‡ƒ“
         On Error Resume Next
             Dim series_count As Long
             series_count = ActiveChart.SeriesCollection.Count
             If Err.Number <> 0 Then
-                MsgBox "ï¿½ÏXï¿½ï¿½ï¿½ï¿½Oï¿½ï¿½ï¿½tï¿½ï¿½Iï¿½ï¿½ï¿½ï¿½ï¿½Ä‚ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½B", vbOKOnly + vbCritical, "ï¿½Ç‚İï¿½ï¿½İƒGï¿½ï¿½ï¿½["
+                MsgBox "•ÏX‚·‚éƒOƒ‰ƒt‚ğ‘I‘ğ‚µ‚Ä‚­‚¾‚³‚¢B", vbOKOnly + vbCritical, "“Ç‚İ‚İƒGƒ‰["
                 Exit Sub
             End If
         On Error GoTo 0
         
-        Dim srs_flag As Boolean
-            srs_flag = True
+        Dim Is_oneSeries As Boolean
+            Is_oneSeries = True
         If 2 <= series_count Then
             With ActiveChart
                 .SeriesCollection(series_count).AxisGroup = 2
@@ -56,34 +53,32 @@ Attribute GraphSeriesAuto.VB_ProcData.VB_Invoke_Func = "G\n14"
                     .SeriesCollection(2).AxisGroup = 2
                     .HasAxis(xlCategory, 2) = True
                 End With
-                srs_flag = False
+                Is_oneSeries = False
                 If Err.Number <> 0 Then
-                    MsgBox "ï¿½Î‰ï¿½ï¿½ï¿½ï¿½Ä‚ï¿½ï¿½ï¿½Ì‚ÍAï¿½uï¿½Uï¿½zï¿½}ï¿½vï¿½Ì‚İ‚Å‚ï¿½", vbCritical
+                    MsgBox "‘Î‰‚µ‚Ä‚¢‚é‚Ì‚ÍAuU•z}v‚Ì‚İ‚Å‚·", vbCritical
                     Exit Sub
                 End If
             On Error GoTo 0
         End If
         
-        Dim x_max As Double, x_min As Double
-        Dim y_max As Double, y_min As Double
-        Dim gatv As getautotickvalue
-        set gatv = new getautotickvalue
-        call gatv.GetAutoMaxMinTickValue(srs_flag)
-        x_max = gatv.xAoutMaxTickValue
-        x_min = gatv.xAoutminTickValue
-        y_max = gatv.yAoutMaxTickValue
-        y_min = gatv.yAoutMinTickValue
-        Set gatv = Nothing
-
         
-        'ï¿½ï¿½ï¿½Ìƒ^ï¿½Cï¿½gï¿½ï¿½ï¿½Ìæ“¾
+        Dim gatv As getautotickvalue
+        Set gatv = New getautotickvalue
+        With gatv
+            Call .GetAutoMaxMinTickValue(Is_oneSeries)
+            Dim x_max As Double: x_max = .xMaxAutoTickValue
+            Dim x_min As Double: x_min = .xMinAutoTickValue
+            Dim y_max As Double: y_max = .yMaxAutoTickValue
+            Dim y_min As Double: y_min = .yMinAutoTickValue
+        End With
+        '²‚Ìƒ^ƒCƒgƒ‹‚Ìæ“¾
         On Error Resume Next
             Dim get_x_axis_title As String
             get_x_axis_title = tofliv.getTitf(1)
             Dim get_y_axis_title As String
             get_y_axis_title = tofliv.getTitf(2)
         On Error GoTo 0
-        
+
         Dim get_x_width As Double
         get_x_width = (x_max - x_min) / ActiveChart.Axes(xlCategory, 1).MajorUnit - 1
         Dim get_y_width As Double
@@ -91,32 +86,32 @@ Attribute GraphSeriesAuto.VB_ProcData.VB_Invoke_Func = "G\n14"
         
         
         Dim x_width_box As New ilintickvalbox
-        Call x_width_box.GetInf("ï¿½ï¿½ï¿½ï¿½ï¿½Fï¿½Úï¿½ï¿½è”ï¿½Iï¿½ï¿½", "ï¿½ï¿½", get_x_width)
+        Call x_width_box.GetInf("‚˜²F–Ú·‚è”‘I‘ğ", "‚˜", get_x_width)
         Dim inp_x_width As String
         inp_x_width = x_width_box.UserInput
         Dim x_width As Double
         x_width = (x_max - x_min) / (inp_x_width + 1)
         
         Dim y_width_box As New ilintickvalbox
-        Call y_width_box.GetInf("ï¿½ï¿½ï¿½ï¿½ï¿½Fï¿½Úï¿½ï¿½è”ï¿½Iï¿½ï¿½", "ï¿½ï¿½", get_y_width)
+        Call y_width_box.GetInf("‚™²F–Ú·‚è”‘I‘ğ", "‚™", get_y_width)
         Dim inp_y_width As Double
         inp_y_width = y_width_box.UserInput
         Dim y_width As Double
         y_width = (y_max - y_min) / (inp_y_width + 1)
         
         Dim c_x_axis_title As New ititlenamebox
-        Call c_x_axis_title.GetInf("ï¿½ï¿½ï¿½ï¿½ï¿½Fï¿½^ï¿½Cï¿½gï¿½ï¿½ï¿½İ’ï¿½", "ï¿½ï¿½", get_x_axis_title)
+        Call c_x_axis_title.GetInf("‚˜²Fƒ^ƒCƒgƒ‹İ’è", "‚˜", get_x_axis_title)
         Dim x_axis_title As String
         x_axis_title = c_x_axis_title.UserInput
         
         Dim c_y_axis_title As New ititlenamebox
-        Call c_y_axis_title.GetInf("ï¿½ï¿½ï¿½ï¿½ï¿½Fï¿½^ï¿½Cï¿½gï¿½ï¿½ï¿½İ’ï¿½", "ï¿½ï¿½", get_y_axis_title)
+        Call c_y_axis_title.GetInf("‚™²Fƒ^ƒCƒgƒ‹İ’è", "‚™", get_y_axis_title)
         Dim y_axis_title As String
         y_axis_title = c_y_axis_title.UserInput
         
         
         
-'------------ï¿½ï¿½ï¿½ï¿½ï¿½İ’ï¿½Zï¿½Nï¿½Vï¿½ï¿½ï¿½ï¿½------------
+'------------‘®İ’èƒZƒNƒVƒ‡ƒ“------------
 
         Dim inp_axes_color As Long
         inp_axes_color = RGB(rgb_r, rgb_g, rgb_b)
@@ -125,7 +120,7 @@ Attribute GraphSeriesAuto.VB_ProcData.VB_Invoke_Func = "G\n14"
         
         With ActiveChart
         
-            'ï¿½ï¿½Pï¿½ï¿½ï¿½ï¿½xlCategory
+            '‘æ‚P‚˜²xlCategory
             With .Axes(xlCategory, 1)
                 .MajorTickMark = xlInside
                 .Format.Line.ForeColor.RGB = inp_axes_color
@@ -135,7 +130,7 @@ Attribute GraphSeriesAuto.VB_ProcData.VB_Invoke_Func = "G\n14"
                     
                     .MajorUnit = x_width
                      If Err.Number <> 0 Then
-                        MsgBox "ï¿½\ï¿½ï¿½ï¿½ó‚ ‚ï¿½Ü‚ï¿½ï¿½ñ‚ªAï¿½Îï¿½ï¿½ï¿½ï¿½É‚Í‘Î‰ï¿½ï¿½ï¿½ï¿½Ä‚ï¿½ï¿½ï¿½Ü‚ï¿½ï¿½ï¿½B", vbOKOnly + vbCritical, "ï¿½Ç‚İï¿½ï¿½İƒGï¿½ï¿½ï¿½["
+                        MsgBox "\‚µ–ó‚ ‚è‚Ü‚¹‚ñ‚ªA‘Î”²‚É‚Í‘Î‰‚µ‚Ä‚¨‚è‚Ü‚¹‚ñB", vbOKOnly + vbCritical, "“Ç‚İ‚İƒGƒ‰["
                         Exit Sub
                      End If
                 On Error GoTo 0
@@ -149,7 +144,7 @@ Attribute GraphSeriesAuto.VB_ProcData.VB_Invoke_Func = "G\n14"
                 .TickLabels.Font.Color = inp_axes_color
             End With
             
-            'ï¿½ï¿½Pï¿½ï¿½ï¿½ï¿½
+            '‘æ‚P‚™²
             With .Axes(xlValue, 1)
                 .Format.Line.ForeColor.RGB = inp_axes_color
                 On Error Resume Next
@@ -158,7 +153,7 @@ Attribute GraphSeriesAuto.VB_ProcData.VB_Invoke_Func = "G\n14"
                     
                     .MajorUnit = y_width
                     If Err.Number <> 0 Then
-                        MsgBox "ï¿½\ï¿½ï¿½ï¿½ó‚ ‚ï¿½Ü‚ï¿½ï¿½ñ‚ªAï¿½Îï¿½ï¿½ï¿½ï¿½É‚Í‘Î‰ï¿½ï¿½ï¿½ï¿½Ä‚ï¿½ï¿½ï¿½Ü‚ï¿½ï¿½ï¿½B", vbOKOnly + vbCritical, "ï¿½Ç‚İï¿½ï¿½İƒGï¿½ï¿½ï¿½["
+                        MsgBox "\‚µ–ó‚ ‚è‚Ü‚¹‚ñ‚ªA‘Î”²‚É‚Í‘Î‰‚µ‚Ä‚¨‚è‚Ü‚¹‚ñB", vbOKOnly + vbCritical, "“Ç‚İ‚İƒGƒ‰["
                         Exit Sub
                     End If
                 On Error GoTo 0
@@ -172,7 +167,7 @@ Attribute GraphSeriesAuto.VB_ProcData.VB_Invoke_Func = "G\n14"
                 .TickLabels.Font.Color = inp_axes_color
             End With
             
-            'ï¿½ï¿½Qï¿½ï¿½ï¿½ï¿½
+            '‘æ‚Q‚˜²
             With .Axes(xlCategory, 2)
                 .TickLabelPosition = xlTickLabelPositionNone
                 .MajorTickMark = xlInside
@@ -181,7 +176,7 @@ Attribute GraphSeriesAuto.VB_ProcData.VB_Invoke_Func = "G\n14"
                     .MinimumScale = x_min
                     .MajorUnit = x_width
                     If Err.Number <> 0 Then
-                        MsgBox "ï¿½\ï¿½ï¿½ï¿½ó‚ ‚ï¿½Ü‚ï¿½ï¿½ñ‚ªAï¿½Îï¿½ï¿½ï¿½ï¿½É‚Í‘Î‰ï¿½ï¿½ï¿½ï¿½Ä‚ï¿½ï¿½ï¿½Ü‚ï¿½ï¿½ï¿½B", vbOKOnly + vbCritical, "ï¿½Ç‚İï¿½ï¿½İƒGï¿½ï¿½ï¿½["
+                        MsgBox "\‚µ–ó‚ ‚è‚Ü‚¹‚ñ‚ªA‘Î”²‚É‚Í‘Î‰‚µ‚Ä‚¨‚è‚Ü‚¹‚ñB", vbOKOnly + vbCritical, "“Ç‚İ‚İƒGƒ‰["
                         Exit Sub
                     End If
                 On Error GoTo 0
@@ -189,7 +184,7 @@ Attribute GraphSeriesAuto.VB_ProcData.VB_Invoke_Func = "G\n14"
                 .Format.Line.ForeColor.RGB = inp_axes_color
             End With
             
-            'ï¿½ï¿½Qï¿½ï¿½ï¿½ï¿½
+            '‘æ‚Q‚™²
             With .Axes(xlValue, 2)
                 .TickLabelPosition = xlTickLabelPositionNone
                 .TickLabelPosition = xlTickLabelPositionNone
@@ -199,7 +194,7 @@ Attribute GraphSeriesAuto.VB_ProcData.VB_Invoke_Func = "G\n14"
                     .MinimumScale = y_min
                     .MajorUnit = y_width
                      If Err.Number <> 0 Then
-                        MsgBox "ï¿½\ï¿½ï¿½ï¿½ó‚ ‚ï¿½Ü‚ï¿½ï¿½ñ‚ªAï¿½Îï¿½ï¿½ï¿½ï¿½É‚Í‘Î‰ï¿½ï¿½ï¿½ï¿½Ä‚ï¿½ï¿½ï¿½Ü‚ï¿½ï¿½ï¿½B", vbOKOnly + vbCritical, "ï¿½Ç‚İï¿½ï¿½İƒGï¿½ï¿½ï¿½["
+                        MsgBox "\‚µ–ó‚ ‚è‚Ü‚¹‚ñ‚ªA‘Î”²‚É‚Í‘Î‰‚µ‚Ä‚¨‚è‚Ü‚¹‚ñB", vbOKOnly + vbCritical, "“Ç‚İ‚İƒGƒ‰["
                         Exit Sub
                     End If
                 On Error GoTo 0
@@ -207,7 +202,7 @@ Attribute GraphSeriesAuto.VB_ProcData.VB_Invoke_Func = "G\n14"
                 .Format.Line.ForeColor.RGB = inp_axes_color
             End With
             
-            'ï¿½Oï¿½ï¿½ï¿½tï¿½Sï¿½Ì‚Ìï¿½ï¿½ï¿½ï¿½İ’ï¿½
+            'ƒOƒ‰ƒt‘S‘Ì‚Ì‘®İ’è
         
             .ChartArea.Format.Line.Visible = msoFalse
             
@@ -228,11 +223,11 @@ Attribute GraphSeriesAuto.VB_ProcData.VB_Invoke_Func = "G\n14"
                 
             End If
             
-            If 1 = ThisWorkbook.Sheets("ï¿½Iï¿½vï¿½Vï¿½ï¿½ï¿½ï¿½").Range("M12").Value Then
+            If 1 = ThisWorkbook.Sheets("ƒIƒvƒVƒ‡ƒ“").Range("M12").Value Then
                 Call tofliv.setlegend
             End If
             
-            If 1 = ThisWorkbook.Sheets("ï¿½Iï¿½vï¿½Vï¿½ï¿½ï¿½ï¿½").Range("M16").Value Then
+            If 1 = ThisWorkbook.Sheets("ƒIƒvƒVƒ‡ƒ“").Range("M16").Value Then
                 Call tofliv.setSeriesMarkerFormat
             End If
             
@@ -240,9 +235,9 @@ Attribute GraphSeriesAuto.VB_ProcData.VB_Invoke_Func = "G\n14"
     
     Else
     
-        MsgBox "ï¿½\ï¿½ï¿½ï¿½ó‚ ‚ï¿½Ü‚ï¿½ï¿½ñ‚ªAï¿½ï¿½ï¿½ÌƒRï¿½ï¿½ï¿½sï¿½ï¿½ï¿½[ï¿½^ï¿½[ï¿½Å‚Ígï¿½ï¿½ï¿½Ü‚ï¿½ï¿½ï¿½B" _
+        MsgBox "\‚µ–ó‚ ‚è‚Ü‚¹‚ñ‚ªA‚±‚ÌƒRƒ“ƒsƒ…[ƒ^[‚Å‚Íg‚¦‚Ü‚¹‚ñB" _
         & vbCrLf & _
-        "ï¿½ï¿½ï¿½wï¿½ï¿½ï¿½ÌŒï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½è‚¢ï¿½\ï¿½ï¿½ï¿½ã‚°ï¿½Ü‚ï¿½ï¿½B", vbCritical + vbQuestion, "ï¿½xï¿½ï¿½"
+        "‚²w“ü‚ÌŒŸ“¢‚ğ‚¨Šè‚¢\‚µã‚°‚Ü‚·B", vbCritical + vbQuestion, "Œx"
     
     End If
     
@@ -253,7 +248,7 @@ End Sub
 
 
 
-'-----------------------------------ï¿½ï¿½ï¿½Oï¿½oï¿½[ï¿½Wï¿½ï¿½ï¿½ï¿½-----------------------------------
+'-----------------------------------ƒƒOƒo[ƒWƒ‡ƒ“-----------------------------------
 
 
 
@@ -261,7 +256,7 @@ Sub GraphSeriesLogAuto()
 Attribute GraphSeriesLogAuto.VB_ProcData.VB_Invoke_Func = "A\n14"
 
 
-    With ThisWorkbook.Sheets("ï¿½Iï¿½vï¿½Vï¿½ï¿½ï¿½ï¿½")
+    With ThisWorkbook.Sheets("ƒIƒvƒVƒ‡ƒ“")
         Dim xdp_g As Integer
         xdp_g = .Range("H9").Value
         Dim ydp_g As Integer
@@ -276,20 +271,20 @@ Attribute GraphSeriesLogAuto.VB_ProcData.VB_Invoke_Func = "A\n14"
         rgb_b = .Range("H27").Value - 1
     End With
     
-    If tofliv.GetHdSn() = ThisWorkbook.Sheets("ï¿½zï¿½[ï¿½ï¿½").Cells(1, 1).Value Then
+    If tofliv.GetHdSn() = ThisWorkbook.Sheets("ƒz[ƒ€").Cells(1, 1).Value Then
         
-         'ï¿½ï¿½ï¿½æ“¾ï¿½Zï¿½Nï¿½Vï¿½ï¿½ï¿½ï¿½
+         'î•ñæ“¾ƒZƒNƒVƒ‡ƒ“
         On Error Resume Next
             Dim series_count As Long
             series_count = ActiveChart.SeriesCollection.Count
             If Err.Number <> 0 Then
-                MsgBox "ï¿½ÏXï¿½ï¿½ï¿½ï¿½Oï¿½ï¿½ï¿½tï¿½ï¿½Iï¿½ï¿½ï¿½ï¿½ï¿½Ä‚ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½B", vbOKOnly + vbCritical, "ï¿½Ç‚İï¿½ï¿½İƒGï¿½ï¿½ï¿½["
+                MsgBox "•ÏX‚·‚éƒOƒ‰ƒt‚ğ‘I‘ğ‚µ‚Ä‚­‚¾‚³‚¢B", vbOKOnly + vbCritical, "“Ç‚İ‚İƒGƒ‰["
                 Exit Sub
             End If
         On Error GoTo 0
         
         
-        'ï¿½nï¿½ï¿½ÌŒÂï¿½ï¿½Ì”ï¿½ï¿½ï¿½ÆŒnï¿½ï¿½Ì’Ç‰ï¿½
+        'Œn—ñ‚ÌŒÂ”‚Ì”»’è‚ÆŒn—ñ‚Ì’Ç‰Á
         Dim auto_flag As Boolean
             auto_flag = True
         If 2 <= series_count Then
@@ -307,7 +302,7 @@ Attribute GraphSeriesLogAuto.VB_ProcData.VB_Invoke_Func = "A\n14"
         End If
         
         
-        'ï¿½ï¿½ï¿½ÌÅï¿½ï¿½lï¿½ÆÅ‘ï¿½lï¿½Ìæ“¾
+        '²‚ÌÅ¬’l‚ÆÅ‘å’l‚Ìæ“¾
         Dim x1_max As Double, x1_min As Double
         Dim y1_max As Double, y1_min As Double
         Dim x2_max As Double, x2_min As Double
@@ -337,20 +332,20 @@ Attribute GraphSeriesLogAuto.VB_ProcData.VB_Invoke_Func = "A\n14"
         On Error GoTo 0
         
         Dim c_x_axis_title As New ititlenamebox
-        Call c_x_axis_title.GetInf("ï¿½ï¿½ï¿½ï¿½ï¿½Fï¿½^ï¿½Cï¿½gï¿½ï¿½ï¿½İ’ï¿½", "ï¿½ï¿½", get_x_axis_title)
+        Call c_x_axis_title.GetInf("‚˜²Fƒ^ƒCƒgƒ‹İ’è", "‚˜", get_x_axis_title)
         Dim x_axis_title As String
         x_axis_title = c_x_axis_title.UserInput
         Dim c_y_axis_title As New ititlenamebox
-        Call c_y_axis_title.GetInf("ï¿½ï¿½ï¿½ï¿½ï¿½Fï¿½^ï¿½Cï¿½gï¿½ï¿½ï¿½İ’ï¿½", "ï¿½ï¿½", get_y_axis_title)
+        Call c_y_axis_title.GetInf("‚™²Fƒ^ƒCƒgƒ‹İ’è", "‚™", get_y_axis_title)
         Dim y_axis_title As String
         y_axis_title = c_y_axis_title.UserInput
         
         
         Dim sele_log_axis As Long
         
-        If MsgBox("ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Îï¿½ï¿½\ï¿½ï¿½ï¿½É‚ï¿½ï¿½Ü‚ï¿½ï¿½ï¿½ï¿½H" & vbCrLf & "ï¿½uï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½vï¿½Ìê‡ï¿½É‚Íï¿½ï¿½`ï¿½ï¿½ï¿½É‚ï¿½ï¿½Ü‚ï¿½ï¿½B", vbYesNo, "ï¿½ï¿½ï¿½ï¿½ï¿½Iï¿½ï¿½") = vbYes Then
+        If MsgBox("‚˜²‚ğ‘Î”•\¦‚É‚µ‚Ü‚·‚©H" & vbCrLf & "u‚¢‚¢‚¦v‚Ìê‡‚É‚ÍüŒ`²‚É‚µ‚Ü‚·B", vbYesNo, "‚˜²‘I‘ğ") = vbYes Then
         
-            If MsgBox("ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Îï¿½ï¿½\ï¿½ï¿½ï¿½É‚ï¿½ï¿½Ü‚ï¿½ï¿½ï¿½ï¿½H" & vbCrLf & "ï¿½uï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½vï¿½Ìê‡ï¿½É‚Íï¿½ï¿½`ï¿½ï¿½ï¿½É‚ï¿½ï¿½Ü‚ï¿½ï¿½B", vbYesNo, "ï¿½ï¿½ï¿½ï¿½ï¿½Iï¿½ï¿½") = vbYes Then
+            If MsgBox("‚™²‚ğ‘Î”•\¦‚É‚µ‚Ü‚·‚©H" & vbCrLf & "u‚¢‚¢‚¦v‚Ìê‡‚É‚ÍüŒ`²‚É‚µ‚Ü‚·B", vbYesNo, "‚™²‘I‘ğ") = vbYes Then
                 
                 sele_log_axis = 1
             
@@ -361,7 +356,7 @@ Attribute GraphSeriesLogAuto.VB_ProcData.VB_Invoke_Func = "A\n14"
             End If
                 
         Else
-            If MsgBox("ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Îï¿½ï¿½\ï¿½ï¿½ï¿½É‚ï¿½ï¿½Ü‚ï¿½ï¿½ï¿½ï¿½H" & vbCrLf & "ï¿½uï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½vï¿½Ìê‡ï¿½É‚Íï¿½ï¿½`ï¿½ï¿½ï¿½É‚ï¿½ï¿½Ü‚ï¿½ï¿½B", vbYesNo, "ï¿½ï¿½ï¿½ï¿½ï¿½Iï¿½ï¿½") = vbYes Then
+            If MsgBox("‚™²‚ğ‘Î”•\¦‚É‚µ‚Ü‚·‚©H" & vbCrLf & "u‚¢‚¢‚¦v‚Ìê‡‚É‚ÍüŒ`²‚É‚µ‚Ü‚·B", vbYesNo, "‚™²‘I‘ğ") = vbYes Then
                 
                 sele_log_axis = 3
             Else
@@ -373,15 +368,15 @@ Attribute GraphSeriesLogAuto.VB_ProcData.VB_Invoke_Func = "A\n14"
         
         Select Case sele_log_axis
             
-            Case 1 'ï¿½ï¿½ï¿½ï¿½ï¿½Îï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Îï¿½
+            Case 1 '‚˜²‘Î”‚™²‘Î”
             
                 Dim p_x_inp_box As New ilogbasebox
-                Call p_x_inp_box.GetInf("ï¿½ï¿½ï¿½ï¿½ï¿½Fï¿½î”ï¿½İ’ï¿½", "x", 10)
+                Call p_x_inp_box.GetInf("‚˜²FŠî”İ’è", "x", 10)
                 Dim p_x_log_base As Double
                 p_x_log_base = p_x_inp_box.UserInput
                 
                 Dim p_y_inp_box As New ilogbasebox
-                Call p_y_inp_box.GetInf("ï¿½ï¿½ï¿½ï¿½ï¿½Fï¿½î”ï¿½İ’ï¿½", "ï¿½ï¿½", 10)
+                Call p_y_inp_box.GetInf("‚™²FŠî”İ’è", "‚™", 10)
                 Dim p_y_log_base As Double
                 p_y_log_base = p_y_inp_box.UserInput
                 
@@ -391,12 +386,12 @@ Attribute GraphSeriesLogAuto.VB_ProcData.VB_Invoke_Func = "A\n14"
                     x2_min = x1_min
                     x2_max = x1_max
                 Else
-                    MsgBox "ï¿½Îï¿½ï¿½ï¿½ï¿½ï¿½0ï¿½È‰ï¿½ï¿½Ì’lï¿½Í—pï¿½ï¿½ï¿½ï¿½ï¿½Ü‚ï¿½ï¿½ï¿½B" _
+                    MsgBox "‘Î”²‚É0ˆÈ‰º‚Ì’l‚Í—p‚¢‚ç‚ê‚Ü‚¹‚ñB" _
                     & vbCrLf & _
-                    "ï¿½ï¿½ï¿½ÌÅï¿½ï¿½lï¿½ï¿½ï¿½ï¿½ï¿½Ìï¿½ï¿½É‚È‚ï¿½ï¿½Ä‚ï¿½ï¿½é–ï¿½ï¿½ï¿½mï¿½Fï¿½ï¿½ï¿½Ä‚ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½B", vbCritical + vbQuestion, "ï¿½xï¿½ï¿½"
+                    "²‚ÌÅ¬’l‚ª³‚Ì”‚É‚È‚Á‚Ä‚¢‚é–‚ğŠm”F‚µ‚Ä‚­‚¾‚³‚¢B", vbCritical + vbQuestion, "Œx"
                     
                     Dim p_x_inp_min_box As New ilogminvalbox
-                    Call p_x_inp_min_box.GetInf("ï¿½ï¿½ï¿½ï¿½ï¿½Fï¿½Åï¿½ï¿½lï¿½İ’ï¿½", "ï¿½ï¿½", x1_max, 1)
+                    Call p_x_inp_min_box.GetInf("‚˜²FÅ¬’lİ’è", "‚˜", x1_max, 1)
                     
                     x1_min = p_x_inp_min_box.UserInput
                     x2_min = x1_min
@@ -410,11 +405,11 @@ Attribute GraphSeriesLogAuto.VB_ProcData.VB_Invoke_Func = "A\n14"
                     y2_min = y1_min
                     y2_max = y1_max
                 Else
-                    MsgBox "ï¿½Îï¿½ï¿½ï¿½ï¿½É•ï¿½ï¿½Ì’lï¿½Í—pï¿½ï¿½ï¿½ï¿½ï¿½Ü‚ï¿½ï¿½ï¿½B" _
+                    MsgBox "‘Î”²‚É•‰‚Ì’l‚Í—p‚¢‚ç‚ê‚Ü‚¹‚ñB" _
                     & vbCrLf & _
-                    "ï¿½ï¿½ï¿½Ì’lï¿½ï¿½ï¿½ï¿½ï¿½Ìï¿½ï¿½É‚È‚ï¿½ï¿½Ä‚ï¿½ï¿½é–ï¿½ï¿½ï¿½mï¿½Fï¿½ï¿½ï¿½Ä‚ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½B", vbCritical + vbQuestion, "ï¿½xï¿½ï¿½"
+                    "²‚Ì’l‚ª³‚Ì”‚É‚È‚Á‚Ä‚¢‚é–‚ğŠm”F‚µ‚Ä‚­‚¾‚³‚¢B", vbCritical + vbQuestion, "Œx"
                     Dim p_y_inp_min_box As New ilogminvalbox
-                    Call p_y_inp_min_box.GetInf("ï¿½ï¿½ï¿½ï¿½ï¿½Fï¿½Åï¿½ï¿½lï¿½İ’ï¿½", "ï¿½ï¿½", y1_max, 1)
+                    Call p_y_inp_min_box.GetInf("‚™²FÅ¬’lİ’è", "‚™", y1_max, 1)
                     y1_min = p_y_inp_min_box.UserInput
                     y2_min = y1_min
                     y1_max = tofliv.setLogMaxValue(2, p_y_log_base)
@@ -422,7 +417,7 @@ Attribute GraphSeriesLogAuto.VB_ProcData.VB_Invoke_Func = "A\n14"
                 End If
                 
                 
-                'ï¿½Oï¿½ï¿½ï¿½tï¿½ï¿½ï¿½ï¿½ï¿½İ’ï¿½
+                'ƒOƒ‰ƒt‘®İ’è
                 With ActiveChart
                     .SetElement msoElementPrimaryCategoryAxisLogScale
                     .SetElement msoElementSecondaryCategoryAxisLogScale
@@ -480,10 +475,10 @@ Attribute GraphSeriesLogAuto.VB_ProcData.VB_Invoke_Func = "A\n14"
                 
                 
             
-            Case 2 'ï¿½ï¿½ï¿½ï¿½ï¿½Îï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½`
+            Case 2 '‚˜²‘Î”‚™²üŒ`
             
                 Dim s_inp_box As New ilogbasebox
-                Call s_inp_box.GetInf("ï¿½ï¿½ï¿½ï¿½ï¿½Fï¿½î”ï¿½İ’ï¿½", "x", 10)
+                Call s_inp_box.GetInf("‚˜²FŠî”İ’è", "x", 10)
                 Dim s_x_log_base As Double
                 s_x_log_base = s_inp_box.UserInput
                     
@@ -491,12 +486,12 @@ Attribute GraphSeriesLogAuto.VB_ProcData.VB_Invoke_Func = "A\n14"
                     x2_min = x1_min
                     x2_max = x1_max
                 Else
-                    MsgBox "ï¿½Îï¿½ï¿½ï¿½ï¿½ï¿½0ï¿½È‰ï¿½ï¿½Ì’lï¿½Í—pï¿½ï¿½ï¿½ï¿½ï¿½Ü‚ï¿½ï¿½ï¿½B" _
+                    MsgBox "‘Î”²‚É0ˆÈ‰º‚Ì’l‚Í—p‚¢‚ç‚ê‚Ü‚¹‚ñB" _
                     & vbCrLf & _
-                    "ï¿½ï¿½ï¿½ÌÅï¿½ï¿½lï¿½ï¿½ï¿½ï¿½ï¿½Ìï¿½ï¿½É‚È‚ï¿½ï¿½Ä‚ï¿½ï¿½é–ï¿½ï¿½ï¿½mï¿½Fï¿½ï¿½ï¿½Ä‚ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½B", vbCritical + vbQuestion, "ï¿½xï¿½ï¿½"
+                    "²‚ÌÅ¬’l‚ª³‚Ì”‚É‚È‚Á‚Ä‚¢‚é–‚ğŠm”F‚µ‚Ä‚­‚¾‚³‚¢B", vbCritical + vbQuestion, "Œx"
                     
                     Dim s_inp_min_box As New ilogminvalbox
-                    Call s_inp_min_box.GetInf("ï¿½ï¿½ï¿½ï¿½ï¿½Fï¿½Åï¿½ï¿½lï¿½İ’ï¿½", "ï¿½ï¿½", x1_max, 1)
+                    Call s_inp_min_box.GetInf("‚˜²FÅ¬’lİ’è", "‚˜", x1_max, 1)
                     
                     x1_min = s_inp_min_box.UserInput
                     x2_min = x1_min
@@ -556,10 +551,10 @@ Attribute GraphSeriesLogAuto.VB_ProcData.VB_Invoke_Func = "A\n14"
                         
                 End With
             
-            Case 3 'ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½`ï¿½ï¿½ï¿½ï¿½ï¿½Îï¿½
+            Case 3 '‚˜²üŒ`‚™²‘Î”
             
                 Dim t_inp_box As New ilogbasebox
-                Call t_inp_box.GetInf("ï¿½ï¿½ï¿½ï¿½ï¿½Fï¿½î”ï¿½İ’ï¿½", "ï¿½ï¿½", 10)
+                Call t_inp_box.GetInf("‚™²FŠî”İ’è", "‚™", 10)
                 Dim t_y_log_base As Double
                 t_y_log_base = t_inp_box.UserInput
                 
@@ -567,11 +562,11 @@ Attribute GraphSeriesLogAuto.VB_ProcData.VB_Invoke_Func = "A\n14"
                     y2_min = y1_min
                     y2_max = y1_max
                 Else
-                    MsgBox "ï¿½Îï¿½ï¿½ï¿½ï¿½É•ï¿½ï¿½Ì’lï¿½Í—pï¿½ï¿½ï¿½ï¿½ï¿½Ü‚ï¿½ï¿½ï¿½B" _
+                    MsgBox "‘Î”²‚É•‰‚Ì’l‚Í—p‚¢‚ç‚ê‚Ü‚¹‚ñB" _
                     & vbCrLf & _
-                    "ï¿½ï¿½ï¿½Ì’lï¿½ï¿½ï¿½ï¿½ï¿½Ìï¿½ï¿½É‚È‚ï¿½ï¿½Ä‚ï¿½ï¿½é–ï¿½ï¿½ï¿½mï¿½Fï¿½ï¿½ï¿½Ä‚ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½B", vbCritical + vbQuestion, "ï¿½xï¿½ï¿½"
+                    "²‚Ì’l‚ª³‚Ì”‚É‚È‚Á‚Ä‚¢‚é–‚ğŠm”F‚µ‚Ä‚­‚¾‚³‚¢B", vbCritical + vbQuestion, "Œx"
                     Dim t_inp_min_box As New ilogminvalbox
-                    Call t_inp_min_box.GetInf("ï¿½ï¿½ï¿½ï¿½ï¿½Fï¿½Åï¿½ï¿½lï¿½İ’ï¿½", "ï¿½ï¿½", y1_max, 1)
+                    Call t_inp_min_box.GetInf("‚™²FÅ¬’lİ’è", "‚™", y1_max, 1)
                     y1_min = t_inp_min_box.UserInput
                     y2_min = y1_min
                     y1_max = tofliv.setLogMaxValue(2, t_y_log_base)
@@ -630,21 +625,21 @@ Attribute GraphSeriesLogAuto.VB_ProcData.VB_Invoke_Func = "A\n14"
                 End With
                 
             
-            Case 4 'ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½`ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½`
+            Case 4 '‚˜²üŒ`‚™²üŒ`
             
-                MsgBox "ï¿½ï¿½ï¿½ï¿½ï¿½Æ‚ï¿½ï¿½ï¿½ï¿½`ï¿½Ìê‡ï¿½ÍA" _
+                MsgBox "—¼²‚Æ‚àüŒ`‚Ìê‡‚ÍA" _
                 & vbCrLf & _
-                "ï¿½uCtrl+Shift+Gï¿½vï¿½Åï¿½ï¿½`ï¿½ï¿½ï¿½pï¿½Ìƒ}ï¿½Nï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½sï¿½ï¿½ï¿½Ä‚ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½B" _
-                , vbInformation, "ï¿½ï¿½ï¿½mï¿½ç‚¹"
+                "uCtrl+Shift+Gv‚ÅüŒ`²—p‚Ìƒ}ƒNƒ‚ğÀs‚µ‚Ä‚­‚¾‚³‚¢B" _
+                , vbInformation, "‚¨’m‚ç‚¹"
         
         End Select
     
     Else
     
-        ThisWorkbook.Sheets("ï¿½zï¿½[ï¿½ï¿½").Protect PASSWORD:=1184
-        MsgBox "ï¿½\ï¿½ï¿½ï¿½ó‚ ‚ï¿½Ü‚ï¿½ï¿½ñ‚ªAï¿½ï¿½ï¿½ÌƒRï¿½ï¿½ï¿½sï¿½ï¿½ï¿½[ï¿½^ï¿½[ï¿½Å‚Ígï¿½ï¿½ï¿½Ü‚ï¿½ï¿½ï¿½B" _
+        ThisWorkbook.Sheets("ƒz[ƒ€").Protect PASSWORD:=1184
+        MsgBox "\‚µ–ó‚ ‚è‚Ü‚¹‚ñ‚ªA‚±‚ÌƒRƒ“ƒsƒ…[ƒ^[‚Å‚Íg‚¦‚Ü‚¹‚ñB" _
         & vbCrLf & _
-        "ï¿½ï¿½ï¿½wï¿½ï¿½ï¿½ÌŒï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½è‚¢ï¿½\ï¿½ï¿½ï¿½ã‚°ï¿½Ü‚ï¿½ï¿½B", vbCritical + vbQuestion, "ï¿½xï¿½ï¿½"
+        "‚²w“ü‚ÌŒŸ“¢‚ğ‚¨Šè‚¢\‚µã‚°‚Ü‚·B", vbCritical + vbQuestion, "Œx"
     
     End If
 
