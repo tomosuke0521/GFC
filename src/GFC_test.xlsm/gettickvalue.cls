@@ -25,6 +25,10 @@ Private Const THRESHOLD_SHOW_PROBAR As Long = 10000
 
 
 
+Public Function Name()
+    
+End Function
+
 
 Private Sub Class_Initialize()
 
@@ -45,159 +49,49 @@ Private Sub Class_Initialize()
     Dim srcc As Integer
     For srcc = 1 To series_count
     
-        Dim myarrx() As Variant
-        myarrx = ActiveChart.SeriesCollection(srcc).XValues
-        Dim flag As Boolean
-        flag = True
-        Dim ele_count As Long
-        ele_count = UBound(myarrx) + 1
-        Dim arrx(2000000) As String
-        ele_count = 1
-        Call tofliv.showProBar("ｘ軸値読み込み中", THRESHOLD_SHOW_PROBAR, UBound(myarrx))
-        Do
-            On Error Resume Next
-                arrx(ele_count) = myarrx(ele_count)
-                If Err.Number <> 0 Then
-                    flag = False
-                    ele_count = ele_count - 1
-                Else
-                    ele_count = ele_count + 1
-                End If
-            On Error GoTo 0
-            
-            If ele_count Mod 1000 = 0 Then
-                DoEvents
-                UserForm1.ProgressBar1.Value = ele_count / UBound(myarrx) * 100
-                UserForm1.Label1.Caption = ele_count / UBound(myarrx) * 100 & "%"
-                UserForm1.Repaint
-
-            End If
-            
-        Loop While flag
-        
-        Unload UserForm1
         
         Dim i As Long
         
+        'x軸最大値最小値取得
+        Dim myarrx() As Variant
+        myarrx = ActiveChart.SeriesCollection(srcc).XValues
+        
+        Dim ele_count As Long
+        ele_count = UBound(myarrx)
+
         Dim max_arr_x(1 To 100) As Double
+        max_arr_x(srcc) = Application.WorksheetFunction.Max(myarrx)
         Dim min_arr_x(1 To 100) As Double
+        min_arr_x(srcc) = Application.WorksheetFunction.Min(myarrx)
         
-        Call tofliv.showProBar("ｘ軸値ソート中", THRESHOLD_SHOW_PROBAR, UBound(myarrx))
-        
-        For i = 1 To ele_count
-            If Not (IsNumeric(arrx(i))) Then
-            Else
-                If 1 = i Then
-                    max_arr_x(srcc) = arrx(i)
-                    min_arr_x(srcc) = arrx(i)
-                End If
-                If max_arr_x(srcc) < arrx(i) Then
-                    max_arr_x(srcc) = arrx(i)
-                End If
-                If min_arr_x(srcc) > arrx(i) Then
-                    min_arr_x(srcc) = arrx(i)
-                End If
-            End If
-            
-            If i Mod 1000 = 0 Then
-                DoEvents
-                UserForm1.ProgressBar1.Value = i / ele_count * 100
-                UserForm1.Label1.Caption = i / ele_count * 100 & "%"
-                UserForm1.Repaint
-            End If
-            
-        Next i
-        
-        Unload UserForm1
-        
-        
-        Call tofliv.showProBar("y軸値取り込み中", THRESHOLD_SHOW_PROBAR, UBound(myarrx))
-        
+        'y軸最大値最小値取得
         Dim myarry As Variant
         myarry = ActiveChart.SeriesCollection(srcc).Values
         
-        Dim arr_y(2000000) As String
-        For i = 1 To ele_count
-            arr_y(i) = myarry(i)
-            If i Mod 1000 = 0 Then
-                DoEvents
-                UserForm1.ProgressBar1.Value = i / ele_count * 100
-                UserForm1.Label1.Caption = i / ele_count * 100 & "%"
-                UserForm1.Repaint
-            End If
-        Next i
-        
-        Unload UserForm1
-        
         Dim max_arr_y(1 To 100) As Double
+        max_arr_y = Application.WorksheetFunction.Max(myarry)
         Dim min_arr_y(1 To 100) As Double
+        min_arr_y = Application.WorksheetFunction.Min(myarry)
         Dim ele_arr(1 To 100) As Double
-        Call tofliv.showProBar("y軸値ソート中", THRESHOLD_SHOW_PROBAR, UBound(myarrx))
-        For i = 1 To ele_count
-            If Not (IsNumeric(arr_y(i))) Then
-            
-            Else
-                If 1 = i Then
-                max_arr_y(srcc) = arr_y(i)
-                min_arr_y(srcc) = arr_y(i)
-                End If
-                If max_arr_y(srcc) < arr_y(i) Then
-                    max_arr_y(srcc) = arr_y(i)
-                End If
-                If min_arr_y(srcc) > arr_y(i) Then
-                    min_arr_y(srcc) = arr_y(i)
-                End If
-            End If
-            If i Mod 1000 = 0 Then
-                DoEvents
-                UserForm1.ProgressBar1.Value = i / ele_count * 100
-                UserForm1.Label1.Caption = i / ele_count * 100 & "%"
-                UserForm1.Repaint
-            End If
-        Next i
-        
-        Unload UserForm1
-        
         ele_arr(srcc) = ele_count
         
     Next srcc
     
     
-    
-    Dim max_x As Double, min_x As Double
-    Dim max_ele As Double, min_ele As Double
-    For i = 1 To series_count
-        If 1 = i Then
-            max_x = max_arr_x(i)
-            min_x = min_arr_x(i)
-            max_ele = ele_arr(i)
-            min_ele = ele_arr(i)
-        End If
-        If max_x < max_arr_x(i) Then
-            max_x = max_arr_x(i)
-            max_ele = ele_arr(i)
-        End If
-        If min_x > min_arr_x(i) Then
-            min_x = min_arr_x(i)
-            min_ele = ele_arr(i)
-        End If
-        
-    Next i
-    
-    Dim max_y As Double, min_y As Double
-    For i = 1 To series_count
-        If 1 = i Then
-            max_y = max_arr_y(i)
-            min_y = min_arr_y(i)
-        End If
-        If max_y < max_arr_y(i) Then
-            max_y = max_arr_y(i)
-        End If
-        If min_y > min_arr_y(i) Then
-            min_y = min_arr_y(i)
-        End If
-        
-    Next i
+    With Application.WorksheetFunction
+        Dim max_x As Double, min_x As Double
+        max_x = .Max(max_arr_x)
+        min_x = .Min(min_arr_x)
+
+        Dim max_y As Double, min_y As Double
+        max_y = .Max(max_arr_y)
+        min_y = .Min(min_arr_y)
+
+        Dim max_ele As Double, min_ele As Double
+        max_ele = .Max(ele_arr)
+        min_ele = .Min(ele_arr)
+    End With
+   
     
     Dim mar_x As Double: mar_x = 0.05
     Dim mar_y As Double: mar_y = 0.1
