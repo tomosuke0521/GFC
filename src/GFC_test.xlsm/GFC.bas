@@ -4,10 +4,7 @@ Option Explicit
 
 Sub GraphSeriesAuto()
 Attribute GraphSeriesAuto.VB_ProcData.VB_Invoke_Func = "G\n14"
-
-    
     'Application.ScreenUpdating = False
-    
     With ThisWorkbook.Sheets("オプション")
         Dim xdp_g As Integer
         xdp_g = .Range("H9").Value
@@ -67,12 +64,13 @@ Attribute GraphSeriesAuto.VB_ProcData.VB_Invoke_Func = "G\n14"
         
         Dim gatv As getautotickvalue
         Set gatv = New getautotickvalue
-        Call gatv.GetAutoMaxMinTickValue(Is_oneSeries)
-        Dim x_max As Double: x_max = gatv.xMaxAutoTickValue
-        Dim x_min As Double: x_min = gatv.xMinAutoTickValue
-        Dim y_max As Double: y_max = gatv.yMaxAutoTickValue
-        Dim y_min As Double: y_min = gatv.yMinAutoTickValue
-        
+        With gatv
+            Call .GetAutoMaxMinTickValue(Is_oneSeries)
+            Dim x_max As Double: x_max = .xMaxAutoTickValue
+            Dim x_min As Double: x_min = .xMinAutoTickValue
+            Dim y_max As Double: y_max = .yMaxAutoTickValue
+            Dim y_min As Double: y_min = .yMinAutoTickValue
+        End With
         '軸のタイトルの取得
         On Error Resume Next
             Dim get_x_axis_title As String
@@ -80,7 +78,7 @@ Attribute GraphSeriesAuto.VB_ProcData.VB_Invoke_Func = "G\n14"
             Dim get_y_axis_title As String
             get_y_axis_title = tofliv.getTitf(2)
         On Error GoTo 0
-        
+
         Dim get_x_width As Double
         get_x_width = (x_max - x_min) / ActiveChart.Axes(xlCategory, 1).MajorUnit - 1
         Dim get_y_width As Double
