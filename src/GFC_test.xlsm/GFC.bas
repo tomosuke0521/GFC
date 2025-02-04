@@ -251,7 +251,6 @@ End Sub
 Sub GraphSeriesLogAuto()
 Attribute GraphSeriesLogAuto.VB_ProcData.VB_Invoke_Func = "A\n14"
 
-
     With ThisWorkbook.Sheets("ƒIƒvƒVƒ‡ƒ“")
         Dim xdp_g As Integer
         xdp_g = .Range("H9").Value
@@ -278,8 +277,7 @@ Attribute GraphSeriesLogAuto.VB_ProcData.VB_Invoke_Func = "A\n14"
                 Exit Sub
             End If
         On Error GoTo 0
-        
-        
+
         'Œn—ñ‚ÌŒÂ”‚Ì”»’è‚ÆŒn—ñ‚Ì’Ç‰Á
         Dim auto_flag As Boolean
             auto_flag = True
@@ -641,22 +639,3 @@ Attribute GraphSeriesLogAuto.VB_ProcData.VB_Invoke_Func = "A\n14"
 
 
 End Sub
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
