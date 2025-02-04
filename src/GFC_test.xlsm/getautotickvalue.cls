@@ -79,7 +79,7 @@ Public Sub GetAutoMaxMinTickValue(ByVal inp_Is_oneSeries As Boolean)
     'Ž²‚Ì‹«ŠE’l‚ªŽ©“®‚©‚Ç‚¤‚©‚Ì”»’è
     Call IsAutoTickValue
     '------
-    
+
     Dim x1_max As Double, x1_min As Double
     Dim y1_max As Double, y1_min As Double
     Dim x2_max As Double, x2_min As Double
@@ -173,8 +173,6 @@ Public Sub GetAutoMaxMinTickValue(ByVal inp_Is_oneSeries As Boolean)
         End If
     End If
 End Sub
-
-
 
 Public Function xMaxAutoTickValue()
     xMaxAutoTickValue = m_x_max
